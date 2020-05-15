@@ -1,8 +1,8 @@
-let mongoose = require('mongoose')
+let mongoose = require('mongoose');
 
 // const server_address = '127.0.0.1:27017'
 // const database_name = 'ieng_final'
-const uri = "mongodb+srv://s3000:Topol1997@exam-r5vro.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://s3000:Topol1376@cluster0-pxpn4.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
 class Database {
     constructor() {

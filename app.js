@@ -7,7 +7,6 @@ const cors = require('cors');
 const config = require("config");
 const databtase = require("./database");
 const indexRouter = require('./routes/index');
-const examsRouter = require('./routes/exam');
 const usersRouter = require('./routes/users');
 
 const app = express();
@@ -20,7 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', indexRouter);
-app.use('/api/exams', examsRouter);
 app.use('/api/users', usersRouter);
 
 if (!config.get("myprivatekey")) {
