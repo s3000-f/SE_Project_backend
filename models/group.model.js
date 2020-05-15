@@ -5,8 +5,8 @@ const Joi = require("joi");
 const Schema = mongoose.Schema;
 const groupSchema = new Schema({
   Id: Schema.Types.ObjectId,
-  manager: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-  professors: [{type: Schema.Types.ObjectId, ref: 'User', required: true}],
+  manager: {type: Schema.Types.ObjectId, ref: 'User'},
+  professors: [{type: Schema.Types.ObjectId, ref: 'User'}],
   name: String
 });
 
@@ -15,8 +15,8 @@ const Group = mongoose.model('Group', groupSchema);
 function validateGroup (sub) {
   const schema = {
     name: Joi.string().required(),
-    manager: Joi.string().required(),
-    professors: Joi.array().items(Joi.string()).required()
+    manager: Joi.string(),
+    professors: Joi.array().items(Joi.string())
   }
   return Joi.validate(sub,schema);
 }

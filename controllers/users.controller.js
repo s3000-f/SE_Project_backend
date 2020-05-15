@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
     res.header("x-auth-token", token).json({
       status: "success",
       user: {
-        org_id: user._id,
+        org_id: user.org_id,
         access_token: token
       }
     });

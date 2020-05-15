@@ -3,8 +3,9 @@ var router = express.Router();
 let controller = require("../controllers/group.controller")
 let auth = require("../middleware/auth")
 /* GET home page. */
-router.get('/', auth, controller.getGroups);
-router.get('/:id', auth, controller.getGroup);
+router.get('/', controller.getGroups);
+router.post('/', auth, controller.addGroup);
 router.get('/profs', auth, controller.groupProfs);
+router.get('/:id', auth, controller.getGroup);
 
 module.exports = router;

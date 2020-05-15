@@ -74,6 +74,7 @@ function validateUser (user) {
     phone: Joi.string().min(10).max(14).required(),
     org_id: Joi.string().min(7).max(10).required(),
     password: Joi.string().min(3).max(255).required(),
+    group: Joi.string().min(3).max(255).required(),
     secret: Joi.string().min(0).max(200)
   };
 
