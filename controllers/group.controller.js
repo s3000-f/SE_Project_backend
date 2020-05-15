@@ -19,11 +19,12 @@ exports.getGroup = async (req, res) => {
 }
 
 exports.groupProfs = async (req, res, next) => {
-    let user = await User.findOne({org_id: req.user.org_id}).select("group");
+    let user = await User.findOne({org_id: req.user.org_id}).populate("group").select("group");
     if (!user) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
+    console.log(user)
     if (!user.group || user.group.length === 0) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
     let group = await Group.findById(user.group[0]).populate("professors", "name org_id").select("professors");
-    return res.status(200).json({status: "success", result: group})
+    return res.status(200).json({status: "success", result: user.group})
 }
 
 exports.addGroup = async (req, res, next) => {
