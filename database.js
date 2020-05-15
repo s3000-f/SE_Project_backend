@@ -2,7 +2,10 @@ let mongoose = require('mongoose');
 
 // const server_address = '127.0.0.1:27017'
 // const database_name = 'ieng_final'
-const uri = "mongodb+srv://s3000:Topol1376@cluster0-pxpn4.gcp.mongodb.net/test?retryWrites=true&w=majority";
+// backup user: dev
+const env = process.env.NODE_ENV || 'development';
+
+const uri = `mongodb+srv://${env==='development'?'dev':'s3000'}:Topol1376@cluster0-pxpn4.mongodb.net/test?retryWrites=true&w=majority`;
 
 class Database {
     constructor() {
@@ -13,6 +16,7 @@ class Database {
 
     _connect() {
         console.log("connecting to db...");
+        console.log(uri)
         mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
             //     mongoose.connect(`mongodb://${server_address}/${database_name}`, { useNewUrlParser: true, useUnifiedTopology: true})
             .then(() => {
