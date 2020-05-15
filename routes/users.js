@@ -12,6 +12,6 @@ router.post('/login', controller.login);
 router.get('/profile', auth, controller.profile);
 router.post('/logout', controller.logout);
 router.post('/signup', controller.signUp);
-router.post('/proposals', controller.addProposal);
-router.get('/proposals', controller.getProposals);
+router.post('/proposals', auth, controller.addProposal);
+router.get('/proposals', auth, controller.getProposals);
 module.exports = router;

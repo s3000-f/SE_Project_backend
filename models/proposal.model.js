@@ -29,7 +29,7 @@ const proposalSchema = new Schema({
 function validateProposal (exam) {
   const schema = {
     title: Joi.string().min(3).max(2500).required(),
-    keywords: Joi.array().item(Joi.string().min(3).max(50)),
+    keywords: Joi.array().items(Joi.string().min(3).max(50)),
     guid_prof: Joi.string().required(),
     summary: Joi.string().min(3).max(5000)
   };

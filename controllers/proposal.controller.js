@@ -1,7 +1,5 @@
 const {User} = require("../models/users.model");
 const {Proposal, validateProposal} = require("../models/proposal.model");
-const {SubmittedForm, validateAnswers} = require("../models/submitted_exam");
-const {Question, validateAllQ} = require("../models/question.model");
 const {forEach} = require('p-iteration');
 
 
@@ -15,8 +13,8 @@ exports.addProposal = async (req,res,next) => {
     if (error)
         return res.status(400).json({status: error.details[0].message})
     let guid = await User.findOne({org_id: req.body.guid_prof});
-    if (!quid) return res.status(404).json({status: "استاد مشخص شده یافت نشد"});
-    let prop = await new Proposal({
+    if (!guid) return res.status(404).json({status: "استاد مشخص شده یافت نشد"});
+    new Proposal({
         title: bod.title,
         date_created: Date.now(),
         date_send: -1,
@@ -37,22 +35,29 @@ exports.addProposal = async (req,res,next) => {
         student: user,
         group: user.group,
         judges: [],
-    }).save()
-    if (!prop) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
-    if (user.level === 1) {
-        user.proposals.clear()
-        user.proposals.push(prop)
-        user.save((err, usr) => {
-            if (err) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
-            return res.status(200).json({status: "success", result: prop})
-        })
-    } else {
-        user.proposals.push(prop);
-        user.save((err, usr) => {
-            if (err) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
-            usr.populate("proposals", "-_id");
-            return res.status(200).json({status: "success", result: usr.proposals})
-        })
-    }
+    }).save((err, prp) => {
+        console.log(err)
+        if (err) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
+        if (!prp) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
+        if (user.level === 1) {
+            user.proposals = [];
+            user.proposals.push(prp)
+            user.save((err, usr) => {
+                console.log(err)
+                usr.populate("proposals")
+                if (err) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
+                return res.status(200).json({status: "success", result: usr.proposals[0]})
+            })
+
+        } else {
+            user.proposals.push(prop);
+            user.save((err, usr) => {
+                if (err) return res.status(500).json({status: "خطا در ثبت اطلاعات"});
+                usr.populate("proposals", "-_id");
+                return res.status(200).json({status: "success", result: usr.proposals})
+            })
+        }
+    })
+
 
 }

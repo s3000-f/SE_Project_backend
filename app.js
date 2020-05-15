@@ -9,6 +9,7 @@ const databtase = require("./database");
 const indexRouter = require('./routes/index');
 const groupRouter = require('./routes/group');
 const usersRouter = require('./routes/users');
+const proposalsRouter = require('./routes/proposals');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/users', usersRouter);
 app.use('/api/groups', groupRouter);
+app.use('/api/proposals', proposalsRouter);
 app.use('/api', indexRouter);
 
 if (!config.get("myprivatekey")) {
