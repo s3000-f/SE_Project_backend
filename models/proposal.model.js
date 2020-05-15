@@ -15,8 +15,6 @@ const proposalSchema = new Schema({
   revised_file: String,
   final_file: String,
   should_revise: Boolean,
-  start: Number,
-  end: Number,
   revision_comments: [String],
   final_comments: [String],
   keywords: [String],
@@ -27,21 +25,13 @@ const proposalSchema = new Schema({
   group: {type: Schema.Types.ObjectId, ref: 'Group'},
   judges: [{type: Schema.Types.ObjectId, ref: 'User'}],
 });
-//
-// formSchema.statics.to_string = (form) => {
-//     return {
-//         title: form.text,
-//         time_created: form.time_created,
-//         fields: form.time_created,
-//     }
 
-// }
 function validateProposal (exam) {
   const schema = {
-    title: Joi.string().min(3).max(500).required(),
-    questions: Joi.array(),
-    start: Joi.number().required().unit('milliseconds'),
-    end: Joi.number().required().unit('milliseconds')
+    title: Joi.string().min(3).max(2500).required(),
+    keywords: Joi.array().item(Joi.string().min(3).max(50)),
+    guid_prof: Joi.string().required(),
+    summary: Joi.string().min(3).max(5000)
   };
 
   return Joi.validate(exam, schema);

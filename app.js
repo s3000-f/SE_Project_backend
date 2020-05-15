@@ -7,6 +7,7 @@ const cors = require('cors');
 const config = require("config");
 const databtase = require("./database");
 const indexRouter = require('./routes/index');
+const groupRouter = require('./routes/group');
 const usersRouter = require('./routes/users');
 
 const app = express();
@@ -18,8 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/groups', groupRouter);
+app.use('/api', indexRouter);
 
 if (!config.get("myprivatekey")) {
   console.error("FATAL ERROR: Private Key is not defined.");
