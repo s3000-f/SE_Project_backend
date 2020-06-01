@@ -24,7 +24,7 @@ exports.groupProfs = async (req, res, next) => {
     console.log(user)
     if (!user.group || user.group.length === 0) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
     let group = await Group.findById(user.group[0]).populate("professors", "name org_id").select("professors");
-    return res.status(200).json({status: "success", result: user.group})
+    return res.status(200).json({status: "success", result: group})
 }
 
 exports.addGroup = async (req, res, next) => {
