@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
 };
 exports.profile = async function(req, res, next) {
   if (req.user.level === 1) {
-    const user = await User.findById(req.user._id).select("name org_id phone email edu_type");
+    const user = await User.findById(req.user._id).select("name org_id phone email level edu_type");
     res.status(200).json({status: "success", result: user});
   } else if (req.user.level === 2 || req.user.level === 3) {
     const user = await User.findById(req.user._id).populate("group","name").select("-proposals -working_hours -salt -__v -password -group -_id -edu_type");
