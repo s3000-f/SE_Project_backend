@@ -103,7 +103,10 @@ exports.signUp = async (req, res) => {
 };
 
 exports.getProposals = async (req, res, next) => {
-  let user = await User.findOne({org_id: req.user.org_id}).populate("proposals","-_id").select("proposals");
+  let user = await User.findOne({org_id: req.user.org_id}).populate({
+    path: "proposals",
+    populate:{path:"student guide_prof", select: "name org_id _id"},
+  }).select("proposals");
   if (!user) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
   if (user.level === 1) {
     if (user.proposals.length !== 0) {
