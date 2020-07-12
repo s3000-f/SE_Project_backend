@@ -48,8 +48,9 @@ const UserSchema = new Schema({
   proposals: [{type: Schema.Types.ObjectId, ref: 'Proposal'}],
   edu_type: Boolean,
   group: {type: Schema.Types.ObjectId, ref: 'Group'},
-  working_hours: {type: Schema.Types.ObjectID, ref:'Schedule'},
-  field_of_expertise: String
+  working_hours: {type: Schema.Types.ObjectID, ref: 'Schedule'},
+  field_of_expertise: String,
+  firebase_token: String
 });
 // edu_type: True -> tahghigh mehvar
 // edu_type: False -> amoozesh mehvar
@@ -75,6 +76,7 @@ function validateUser (user) {
     org_id: Joi.string().min(7).max(10).required(),
     password: Joi.string().min(3).max(255).required(),
     group: Joi.string().min(3).max(255).required(),
+    field: Joi.string(),
     secret: Joi.string().min(0).max(200)
   };
 

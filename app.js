@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const groupRouter = require('./routes/group');
 const usersRouter = require('./routes/users');
 const proposalsRouter = require('./routes/proposals');
+var admin = require('firebase-admin');
 
 const app = express();
 
@@ -24,7 +25,11 @@ app.use('/api/users', usersRouter);
 app.use('/api/groups', groupRouter);
 app.use('/api/proposals', proposalsRouter);
 app.use('/api', indexRouter);
-
+// admin.initializeApp({
+//   credential: admin.credential.applicationDefault(),
+//   databaseURL: 'https://se-uni.firebaseio.com'
+// });
+// getAccessToken()
 if (!config.get("myprivatekey")) {
   console.error("FATAL ERROR: Private Key is not defined.");
   process.exit(1);
@@ -52,3 +57,23 @@ app.use(function(err, req, res, next) {
   // res.send('error');
 });
 module.exports = app;
+
+function getAccessToken() {
+  return new Promise(function(resolve, reject) {
+    const key = require('service-account-file.json');
+    const jwtClient = new google.auth.JWT(
+      key.client_email,
+      null,
+      key.private_key,
+      SCOPES,
+      null
+    );
+    jwtClient.authorize(function(err, tokens) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(tokens.access_token);
+    });
+  });
+}

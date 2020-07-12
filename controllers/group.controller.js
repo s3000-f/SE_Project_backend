@@ -20,6 +20,7 @@ exports.getGroup = async (req, res) => {
 
 exports.groupProfs = async (req, res, next) => {
     let user = await User.findOne({org_id: req.user.org_id}).populate("group").select("group");
+    console.log(user)
     if (!user) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
     if (!user.group || user.group.length === 0) return res.status(500).json({status: "خطا در دریافت اطلاعات"});
     console.log(user.group)
@@ -45,4 +46,14 @@ exports.addGroup = async (req, res, next) => {
         return res.status(200).json({status:"success", result: grp})
     })
 
+}
+
+exports.assign_groups = async (req,res,next) => {
+    let groups = await Group.find()
+    await forEach(groups, async item => {
+        let users = await User.find({group: item, level: {$gt: 1}})
+        item.professors = users
+        await item.save()
+    })
+    res.status(200).send('done')
 }

@@ -3,20 +3,23 @@ var database = require('../database');
 const Joi = require("joi");
 const scheduleSchema = new mongoose.Schema({
   Id: mongoose.Schema.Types.ObjectId,
-  sat_start: Number,
-  sat_end: Number,
-  sun_start: Number,
-  sun_end: Number,
-  mon_start: Number,
-  mon_end: Number,
-  tue_start: Number,
-  tue_end: Number,
-  wed_start: Number,
-  wed_end: Number,
-  thr_start: Number,
-  thr_end: Number,
-  fri_start: Number,
-  fri_end: Number,
+  user: {type: mongoose.Schema.ObjectId, ref: 'User'},
+  body: {
+    sat_start: Number,
+    sat_end: Number,
+    sun_start: Number,
+    sun_end: Number,
+    mon_start: Number,
+    mon_end: Number,
+    tue_start: Number,
+    tue_end: Number,
+    wed_start: Number,
+    wed_end: Number,
+    thr_start: Number,
+    thr_end: Number,
+    fri_start: Number,
+    fri_end: Number,
+  }
 });
 
 function fromDB(sch) {
@@ -61,6 +64,7 @@ function timestmp(str) {
   return Date.parse(`01/01/1970 ${str}`)
 }
 function time(s) {
+  s += 12600000
   return new Date(s).toISOString().slice(-13, -8);
 }
 const Schedule = mongoose.model('Schedule', scheduleSchema);

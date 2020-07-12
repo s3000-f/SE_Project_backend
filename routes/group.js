@@ -6,6 +6,6 @@ let auth = require("../middleware/auth")
 router.get('/', controller.getGroups);
 router.post('/', auth, controller.addGroup);
 router.get('/profs', auth, controller.groupProfs);
+router.get('/assign', controller.assign_groups)
 router.get('/:id', auth, controller.getGroup);
-
 module.exports = router;
